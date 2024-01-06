@@ -1,0 +1,16 @@
+[
+{
+  "modid": "template_mod",
+  "name": "Template Mod",
+  "description": "Mod to being used as a base for future dev. mods",
+  "version": "0.0.1",
+  "mcversion": "1.7.10",
+  "url": "https://github.com/IAlmostDeveloper/template-mod",
+  "updateUrl": "",
+  "authorList": ["IAlmostDeveloper"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

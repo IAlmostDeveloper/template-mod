@@ -1,0 +1,18 @@
+item.TemplateItem.name=Template Item
+
+
+tile.TemplateBlock.name=Template Block
+item.TemplateFood.name=Template Food
+
+item.TemplatePickaxe.name=Template Pickaxe
+item.TemplateAxe.name=Template Axe
+item.TemplateShovel.name=Template Shovel
+item.TemplateHoe.name=Template Hoe
+item.TemplateSword.name=Template Sword
+
+item.TemplateHelmet.name=Template Helmet
+item.TemplateChestplate.name=Template Chestplate
+item.TemplateLeggings.name=Template Leggings
+item.TemplateBoots.name=Template Boots
+
+itemGroup.tabTemplateMod=Template Mod

@@ -1,0 +1,129 @@
+import org.gradle.plugins.ide.eclipse.model.internal.FileReferenceFactory
+
+import java.nio.file.Files
+import java.nio.file.Paths
+
+buildscript {
+    repositories {
+        maven {
+            name = "forge"
+            url = "https://maven.minecraftforge.net/"
+        }
+        maven { url = 'https://plugins.gradle.org/m2' }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+        mavenCentral()
+    }
+    dependencies {
+        classpath('com.anatawa12.forge:ForgeGradle:1.2-1.1.+') {
+            changing = true
+        }
+    }
+}
+
+apply plugin: 'forge'
+apply plugin: 'curseforge'
+
+
+if (Files.exists(Paths.get("curseforge.properties"))) {
+    // Load CurseForge configuration
+    ext.cfprops = parseConfig(file("curseforge.properties"))
+}
+
+def version_name = version = mod_version
+if (!mod_build_number.isEmpty()) {
+    version_name = mod_version + "_X" + mod_build_number
+    version = "[${version_name}]"
+}
+group = "com.ialmostdeveloper"
+archivesBaseName = "template_mod"
+compileJava.options.encoding = 'UTF-8'
+
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+
+minecraft {
+    version = "1.7.10-10.13.4.1614-1.7.10"
+    runDir = "eclipse"
+}
+
+// A little hack to fix codechicken's crazy maven structure (at least in 1.7.10)
+eclipse.classpath.file.whenMerged { cp ->
+    // Find all codechicken source jars
+    def srcent = cp.entries.findAll { entry -> entry.path.contains("codechicken") && entry.path.endsWith("-src.jar") }
+
+    // Remove them from classpath
+    cp.entries.removeAll srcent
+
+    // Map the source entries to their dev counterparts based on basename
+    Map<String, File> srcmap = new HashMap<String, File>()
+    srcent.forEach { entry ->
+        def file = new File(entry.path)
+        srcmap.put(file.getName().replace("-src.jar", "-dev.jar"), file)
+    }
+
+    // Create file reference factory
+    def fileref = new FileReferenceFactory()
+
+    // Find all codechicken development jars
+    cp.entries.findAll { entry -> entry.path.contains("codechicken") && entry.path.endsWith("-dev.jar") }.forEach { entry ->
+        File srcmapping = new File(entry.path) // Initialize the srcmapping from the dev jar path
+        srcmapping = srcmap.get(srcmapping.getName()) // Transform it using the sourcemap
+        entry.sourcePath = fileref.fromFile(srcmapping) // Set the source path
+    }
+}
+
+repositories {
+    maven {
+        name = 'ModMaven'
+        url = 'https://modmaven.dev'
+    }
+    //maven {
+    //	name = "CurseForge"
+    //	url = "https://minecraft.curseforge.com/api/maven/"
+    //}
+}
+
+dependencies {
+    // you may put jars on which you depend on in ./libs
+    // or you may define them like so..
+    //compile "some.group:artifact:version:classifier"
+    //compile "some.group:artifact:version"
+
+    // real examples
+    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
+    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
+
+    // for more info...
+    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
+    // http://www.gradle.org/docs/current/userguide/dependency_management.html
+    implementation 'codechicken:CodeChickenCore:1.7.10-1.0.4.29:dev'
+    compileOnly 'codechicken:CodeChickenCore:1.7.10-1.0.4.29:src'
+
+    implementation 'codechicken:CodeChickenLib:1.7.10-1.1.3.140:dev'
+    compileOnly 'codechicken:CodeChickenLib:1.7.10-1.1.3.140:src'
+
+    implementation 'codechicken:NotEnoughItems:1.7.10-1.0.3.74:dev'
+    compileOnly 'codechicken:NotEnoughItems:1.7.10-1.0.3.74:src'
+}
+
+processResources
+        {
+            // this will ensure that this task is redone when the versions change.
+            inputs.property "version", project.version
+            inputs.property "mcversion", project.minecraft.version
+
+            // replace stuff in mcmod.info, nothing else
+            from(sourceSets.main.resources.srcDirs) {
+                include 'mcmod.info'
+
+                // replace version and mcversion
+                expand 'version': project.version, 'mcversion': project.minecraft.version
+            }
+
+            // copy everything else, thats not the mcmod.info
+            from(sourceSets.main.resources.srcDirs) {
+                exclude 'mcmod.info'
+            }
+        }
