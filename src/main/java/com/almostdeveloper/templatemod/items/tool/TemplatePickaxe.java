@@ -1,9 +1,9 @@
-package com.almostdeveloper.templatemod;
+package com.almostdeveloper.templatemod.items.tool;
 
 import net.minecraft.item.ItemPickaxe;
 
 public class TemplatePickaxe extends ItemPickaxe {
-    protected TemplatePickaxe(ToolMaterial toolMaterial) {
+    public TemplatePickaxe(ToolMaterial toolMaterial) {
         super(toolMaterial);
     }
 }

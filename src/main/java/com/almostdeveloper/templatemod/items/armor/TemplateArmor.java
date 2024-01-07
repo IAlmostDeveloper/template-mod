@@ -1,4 +1,4 @@
-package com.almostdeveloper.templatemod;
+package com.almostdeveloper.templatemod.items.armor;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemArmor;

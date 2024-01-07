@@ -1,4 +1,4 @@
-package com.almostdeveloper.templatemod;
+package com.almostdeveloper.templatemod.items;
 
 import net.minecraft.item.Item;
 

@@ -1,15 +1,17 @@
-package com.almostdeveloper.templatemod;
+package com.almostdeveloper.templatemod.main;
 
+import com.almostdeveloper.templatemod.items.ModItems;
 import cpw.mods.fml.common.IWorldGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 
 import java.util.Random;
 
-public class TemplateGeneration implements IWorldGenerator {
+public class TemplateWorldGenerator implements IWorldGenerator {
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
         switch (world.provider.dimensionId) {
@@ -26,7 +28,7 @@ public class TemplateGeneration implements IWorldGenerator {
     }
 
     public void generateOverworld(World world, Random random, int x, int z) {
-        generateOre(TemplateMod.templateBlock, world, random, x, z, 4, 16, 16, 0, 100, Blocks.stone);
+        generateOre(ModItems.templateBlock, world, random, x, z, 4, 16, 16, 0, 100, Blocks.stone);
     }
 
     public void generateNether(World world, Random random, int x, int z) {
@@ -44,6 +46,8 @@ public class TemplateGeneration implements IWorldGenerator {
         int heightRange = maxY - minY;
 
         WorldGenMinable genMinable = new WorldGenMinable(block, vienSize, generateIn);
+
+        BiomeGenBase biome = world.getWorldChunkManager().getBiomeGenAt(chunkX, chunkZ);
 
         for (int i=0;i<chance; i++){
             int xRand = chunkX * 16 + random.nextInt(16);

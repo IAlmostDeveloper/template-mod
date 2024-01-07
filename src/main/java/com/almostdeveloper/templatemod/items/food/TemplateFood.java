@@ -1,10 +1,9 @@
-package com.almostdeveloper.templatemod;
+package com.almostdeveloper.templatemod.items.food;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.potion.PotionHelper;
 import net.minecraft.world.World;
 
 public class TemplateFood extends ItemFood {

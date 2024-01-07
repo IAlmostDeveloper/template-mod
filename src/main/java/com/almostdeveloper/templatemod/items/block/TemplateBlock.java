@@ -1,5 +1,6 @@
-package com.almostdeveloper.templatemod;
+package com.almostdeveloper.templatemod.items.block;
 
+import com.almostdeveloper.templatemod.items.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
@@ -8,7 +9,7 @@ import net.minecraft.world.World;
 import java.util.Random;
 
 public class TemplateBlock extends Block {
-    protected TemplateBlock(Material material) {
+    public TemplateBlock(Material material) {
         super(material);
         this.setHardness(1.0f);
 //        this.setHarvestLevel("pickaxe", 4);
@@ -22,7 +23,7 @@ public class TemplateBlock extends Block {
 
     @Override
     public Item getItemDropped(int metadata, Random random, int fortune) {
-        return TemplateMod.templateItem;
+        return ModItems.templateItem;
     }
 
     @Override

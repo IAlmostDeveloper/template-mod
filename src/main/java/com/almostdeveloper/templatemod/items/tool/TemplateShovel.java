@@ -1,4 +1,4 @@
-package com.almostdeveloper.templatemod;
+package com.almostdeveloper.templatemod.items.tool;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemSpade;

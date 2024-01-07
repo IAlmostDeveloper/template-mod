@@ -1,6 +1,6 @@
-package com.almostdeveloper.templatemod;
+package com.almostdeveloper.templatemod.items.armor;
 
-import net.minecraft.item.Item;
+import com.almostdeveloper.templatemod.items.armor.TemplateArmor;
 import net.minecraft.item.ItemArmor;
 
 public class TemplateBoots extends TemplateArmor {
